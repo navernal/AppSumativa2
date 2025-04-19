@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<style>
+    .form-container {
+        background: rgba(179, 144, 173, 0.6);
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        max-width: 500px;
+        margin: auto;
+        margin-top: 50px;
+        box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        text-align: left;
+    }
+    
+    h2 {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        text-align: center;
+        color: white;
+        margin-top: 40px;
+        padding-top: 60px;
+    }
+    
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.2);
+        /* Fondo semitransparente */
+        border: none;
+        color: white;
+    }
+    
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .btn-primary {
+        background-color: black;
+        border: none;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<body>
+
+    <img class="fondo" src="{% static 'img/fondo.jpg' %}" alt="Fondo" style="z-index: -1; position: fixed; width: 100%; height: 100%; object-fit: cover;">
+
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top" style="border-bottom: none; box-shadow: none;">
+        <div class="container-fluid d-flex justify-content-between">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'img/VIRTUAL3.png' %}" width="35px" class="png">
+                <strong>Virtual Play Zone</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="">Registro de usuario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Categorias</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'foro' %}">Foro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Acerca de Virtual Play Zone</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="Buscar">
+                    <input class="form-control me-2" type="Buscar" placeholder="Buscar" aria-label="Buscar">
+                    <button class="btn rounded-pill px-4" style="background-color: #6a0dad; color: white; border: none;" type="submit">Buscar</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <h2 class="text-center"><strong> Registro de usuario</strong></h2>
+    <div class="container">
+        <div class="form-container">
+            <form id="registroForm">
+                <div class="mb-3">
+                    <label for="nombres" class="form-label">Nombres *</label>
+                    <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Ingrese su nombre" required>
+                    <div id="errorNombres" class="text-black" style="display: none;">Campo obligatorio</div>
+                </div>
+                <div class="mb-3">
+                    <label for="apellidoPaterno" class="form-label">Apellido Paterno *</label>
+                    <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno" placeholder="Ingrese su apellido paterno" required>
+                    <div id="errorApellidoPaterno" class="text-black" style="display: none;">Campo obligatorio</div>
+                </div>
+                <div class="mb-3">
+                    <label for="apellidoMaterno" class="form-label">Apellido Materno *</label>
+                    <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno" placeholder="Ingrese su apellido materno" required>
+                    <div id="errorApellidoMaterno" class="text-black" style="display: none;">Campo obligatorio</div>
+                </div>
+                <div class="mb-3">
+                    <label for="usuario" class="form-label">Nombre de Usuario *</label>
+                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Ingrese un usuario" required>
+                    <div id="errorUsuario" class="text-danger" style="display: none;">Debe ingresar nombre de usuario.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo Electrónico *</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña *</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Debe contener al menos 1 numero y una mayuscula" required>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Repetir Contraseña *</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirme su contraseña" required>
+                    <div id="errorPass" class="text-black" style="display: none;">Las contraseñas no coinciden o no cumplen con los requisitos.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento *</label>
+                    <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" placeholder="Ingrese su fecha de nacimiento" required>
+                </div>
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección de Despacho</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingrese su direccion de despacho">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+                <button type="button" class="btn btn-secondary w-100 mt-2" id="btnLimpiar">Limpiar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("registroForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const nombres = document.getElementById("nombres").value.trim();
+            const apellidoPaterno = document.getElementById("apellidoPaterno").value.trim();
+            const apellidoMaterno = document.getElementById("apellidoMaterno").value.trim();
+            const usuario = document.getElementById("usuario").value.trim();
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const email = document.getElementById("email").value;
+            const fechaNacimiento = new Date(document.getElementById("fechaNacimiento").value);
+
+            const errorPass = document.getElementById("errorPass");
+            errorPass.style.display = "none";
+            const errorUsuario = document.getElementById("errorUsuario");
+            const errorNombres = document.getElementById("errorNombres");
+            const errorApellidoPaterno = document.getElementById("errorApellidoPaterno");
+            const errorApellidoMaterno = document.getElementById("errorApellidoMaterno");
+            let isValid = true;
+
+            //Validar nombres
+            if (!nombres) {
+                errorNombres.style.display = "block";
+                isValid = false;
+            } else {
+                errorNombres.style.display = "none";
+            }
+            // Validar apellido paterno
+            if (!apellidoPaterno) {
+                errorApellidoPaterno.style.display = "block";
+                isValid = false;
+            } else {
+                errorApellidoPaterno.style.display = "none";
+            }
+
+            // Validar apellido materno
+            if (!apellidoMaterno) {
+                errorApellidoMaterno.style.display = "block";
+                isValid = false;
+            } else {
+                errorApellidoMaterno.style.display = "none";
+            }
+            // validar usuario
+            if (!usuario) {
+                errorUsuario.style.display = "block";
+                isValid = false;
+            } else {
+                errorUsuario.style.display = "none";
+            }
+
+
+            //validar campos vacíos
+            if (!nombres || !apellidoPaterno || !apellidoMaterno || !usuario || !email || !password || !confirmPassword || !document.getElementById("fechaNacimiento").value) {
+                alert("Todos los campos obligatorios deben estar llenos.");
+                return;
+            }
+
+            // Validar contraseña (entre 6 y 18 caracteres, 1 mayúscula, 1 número)
+            const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,18}$/;
+            if (password !== confirmPassword || !passwordRegex.test(password)) {
+                errorPass.style.display = "block";
+                return;
+            }
+            errorPass.style.display = "none";
+
+            // Validar que las contraseñas coincidan
+            if (password !== confirmPassword) {
+                errorPass.style.display = "block";
+                return;
+            }
+
+            // Validar correo
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(email)) {
+                alert("Por favor, ingrese un correo válido.");
+                return;
+            }
+
+            // Validar edad mínima (13 años)
+            const today = new Date();
+            const age = today.getFullYear() - fechaNacimiento.getFullYear();
+            const monthDiff = today.getMonth() - fechaNacimiento.getMonth();
+            const dayDiff = today.getDate() - fechaNacimiento.getDate();
+            if (age < 13 || (age === 13 && monthDiff < 0)) {
+                alert("Debes tener al menos 13 años para registrarte.");
+                return;
+            }
+
+            alert("¡Registro completado con éxito!");
+            this.reset();
+        });
+
+        document.getElementById("btnLimpiar").addEventListener("click", function() {
+            document.getElementById("registroForm").reset();
+            document.getElementById("errorPass").style.display = "none";
+            document.getElementById("errorUsuario").style.display = "none";
+            document.getElementById("errorNombres").style.display = "none";
+            document.getElementById("errorApellidoPaterno").style.display = "none";
+            document.getElementById("errorApellidoMaterno").style.display = "none";
+        });
+    </script>
+
+
+</body>
+<footer class="bg-dark text-white text-center py-4">
+    <p>&copy; 2025 Virtual Play Zone - Todos los derechos reservados.</p>
+    <div class="d-flex justify-content-center gap-3">
+        <a href="#" class="text-white"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+    </div>
+</footer>
+
+</html>

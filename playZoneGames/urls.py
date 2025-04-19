@@ -16,7 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from playZoneApp import views
 
 urlpatterns = [
+    path('login/', views.login_view, name='login'),
     path('admin/', admin.site.urls),
+    path('', views.index, name='index'),
+    path('accion/', views.Accion, name='Accion'),
+    path('carreras/', views.Carreras, name='Carreras'),
+    path('freetoplay/', views.FreeToPlay, name='FreeToPlay'),
+    path('mundoabierto/', views.MundoAbierto, name='MundoAbierto'),
+    path('supervivencia/', views.Supervivencia, name='Supervivencia'),
+    path('terror/', views.Terror, name='Terror'),
+    path('registroUsuario/', views.RegistrarUsuario, name='RegistroUsuario'),  
+    path('foro/', views.foro, name='foro'),
+    path('carrito/', views.carrito, name='carrito'),
+    path('pago/', views.pago, name='pago'),
+    path('recuperar/', views.recuperar, name='recuperar')
+    
 ]
