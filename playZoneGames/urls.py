@@ -32,6 +32,10 @@ urlpatterns = [
     path('foro/', views.foro, name='foro'),
     path('carrito/', views.carrito, name='carrito'),
     path('pago/', views.pago, name='pago'),
-    path('recuperar/', views.recuperar, name='recuperar')
-    
+    path('recuperar/', views.recuperar_contrasena, name='recuperar'),
+    path('usuarios/', views.usuarios_admin, name='usuarios_admin'),
+    path('usuarios/crear/', views.crear_usuario, name='crear_usuario'),
+    path('usuarios/editar/<int:id>/', views.editar_usuario, name='editar_usuario'),
+    path('usuarios/eliminar/<int:id>/', views.eliminar_usuario, name='eliminar_usuario'),
+    path('logout/', views.logout_view, name='logout'),
 ]
