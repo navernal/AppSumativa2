@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'playZoneGames.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'localhost:1522/FREEPDB1',  # o el nombre del servicio Oracle que uses
+        'NAME': 'localhost:1521/FREEPDB1',  # o el nombre del servicio Oracle que uses
         'USER': 'system',
         'PASSWORD': 'Ora1234'
     }
