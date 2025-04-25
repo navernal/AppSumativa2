@@ -3,7 +3,7 @@ from playZoneApp.decorators import login_requerido
 from django.shortcuts import render, redirect
 from playZoneApp.backend import CustomAuthBackend 
 from django.contrib import messages
-from .models import Usuario
+from .models import Usuario,Categoria,Videojuego,Compra,DetalleCompra
 from .forms import UsuarioForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout
@@ -12,6 +12,10 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.utils import timezone
+from django.http import JsonResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -32,6 +36,9 @@ def login_view(request):
 
 @login_requerido
 def index(request):
+    categorias = Categoria.objects.all()
+    for cat in categorias:
+        cat.nombre = cat.nombre.replace("_", "")
     user_id = request.session.get('user_id')
     if not user_id:
         return redirect('login')
@@ -39,7 +46,7 @@ def index(request):
         usuario = Usuario.objects.get(id=user_id)
     except Usuario.DoesNotExist:
         return redirect('login')
-    return render(request, 'index.html', {'usuario': usuario})
+    return render(request, 'index.html', {'usuario': usuario,'categorias': categorias})
 
 @login_requerido
 def Accion(request):
@@ -79,7 +86,21 @@ def carrito(request):
 
 @login_requerido
 def pago(request):
-    return render(request, 'pago.html')
+    carrito = request.session.get('carrito', [])
+    
+    if not carrito:
+        return redirect('carrito')  
+
+    total = sum(item['precio'] for item in carrito)
+    
+    compra = Compra.objects.create(usuario=request.user, fecha_compra=timezone.now(), total=total)
+
+    for item in carrito:
+        videojuego = Videojuego.objects.get(nombre=item['nombre'])
+        DetalleCompra.objects.create(compra=compra, videojuego=videojuego, cantidad=1, subtotal=item['precio'])
+    request.session['carrito'] = []
+
+    return render(request, 'pago.html', {'compra': compra})
 
 def recuperar_contrasena(request):
     if request.method == "POST":
@@ -138,7 +159,7 @@ def editar_usuario(request, id):
         if form.is_valid():
             usuario_editado = form.save(commit=False)
             if not form.cleaned_data['clave']:
-                usuario_editado.clave = usuario.clave  # Mantén la contraseña si no se cambia
+                usuario_editado.clave = usuario.clave 
 
             usuario_editado.save()
             if usuario_actual.rol.nombre == 'admin':
@@ -176,3 +197,51 @@ def logout_view(request):
     logout(request)
 
     return redirect('login')  
+
+def juegos_por_categoria(request, categoria_id):
+    categoria = Categoria.objects.get(id=categoria_id)
+    juegos = Videojuego.objects.filter(categoria=categoria)
+    nombre_categoria = categoria.nombre.replace("_", " ")
+
+    return render(request, 'juegos_por_categoria.html', {
+        'categoria': categoria,
+        'juegos': juegos,
+        'nombre_categoria': nombre_categoria
+    })
+    
+@login_requerido
+def actualizar_carrito(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        request.session['carrito'] = data['carrito']
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
+
+@csrf_exempt
+def registrar_pago(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print(data)
+        total = data.get("total")
+        carrito = data.get("carrito", [])
+        
+        user_id = request.session.get('user_id')
+        if not user_id:
+            return JsonResponse({"error": "Usuario no autenticado"}, status=401)
+
+        usuario = Usuario.objects.get(id=user_id)
+        compra = Compra.objects.create(usuario=usuario, total=total)
+        for item in carrito:
+            videojuego = Videojuego.objects.get(nombre=item["nombre"])  
+            cantidad = 1  
+            subtotal = videojuego.precio * cantidad 
+
+            DetalleCompra.objects.create(
+                compra=compra,
+                videojuego=videojuego,
+                cantidad=cantidad,
+                subtotal=subtotal
+            )
+
+        return JsonResponse({"status": "ok", "compra_id": compra.id})
+    return JsonResponse({"error": "Método no permitido"}, status=405)

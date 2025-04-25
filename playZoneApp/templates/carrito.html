@@ -16,7 +16,7 @@
             background-position: center;
             color: white;
         }
-        
+
         .carrito-container {
             max-width: 600px;
             background: rgba(0, 0, 0, 0.8);
@@ -25,12 +25,12 @@
             margin: 100px auto;
             text-align: center;
         }
-        
+
         .btn-primary {
             background-color: #6a0dad;
             border: none;
         }
-        
+
         .btn-primary:hover {
             background-color: #570b9a;
         }
@@ -61,12 +61,12 @@
 
     <script>
         let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
+    
         function actualizarCarrito() {
             let lista = document.getElementById("listaCarrito");
             let total = 0;
             lista.innerHTML = "";
-
+    
             carrito.forEach((item, index) => {
                 total += item.precio;
                 let li = document.createElement("li");
@@ -77,37 +77,70 @@
                 `;
                 lista.appendChild(li);
             });
-
+    
             document.getElementById("totalCarrito").innerText = total;
             localStorage.setItem("carrito", JSON.stringify(carrito));
+            actualizarContadorCarrito();
         }
-
+    
         function eliminarDelCarrito(index) {
             carrito.splice(index, 1);
             actualizarCarrito();
         }
-
+    
         function vaciarCarrito() {
             carrito = [];
             actualizarCarrito();
         }
-
+    
         function realizarPago() {
             let totalElemento = document.getElementById("totalCarrito");
             let total = parseFloat(totalElemento.innerText.trim());
-
+    
             if (isNaN(total) || total <= 0) {
                 alert("El carrito está vacío.");
                 return;
             }
+    
+            // Serializamos el carrito y lo pasamos por la URL
+            let carritoString = JSON.stringify(carrito);
 
-            // Redirigir a pago.html con el monto como parámetro en la URL
-            window.location.href = "{% url 'pago' %}?monto=" + total;
-
+            fetch("{% url 'registrar_pago' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    total: total,
+                    carrito: carrito
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "ok") {
+                    alert("Pago realizado con éxito");
+                    // Aquí puedes redirigir o hacer algo con la respuesta.
+                } else {
+                    alert("Error en el proceso de pago");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Hubo un problema al realizar el pago.");
+            });
+            
         }
-
-        actualizarCarrito();
+    
+        function actualizarContadorCarrito() {
+            const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            const contador = document.getElementById("contador-carrito");
+            if (contador) contador.textContent = carrito.length;
+        }
+    
+        document.addEventListener("DOMContentLoaded", actualizarCarrito);
     </script>
+    
+    
 
 </body>
 <footer class="bg-dark text-white text-center py-4">

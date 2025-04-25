@@ -157,75 +157,21 @@
     <h2><strong>C A T E G O R I A S</strong></h2>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-4 col-sm-6 col-md-4 col-lg-3">
-                <a href="accion/" class="text-decoration-none">
-                    <div class="card custom-card">
-                        <img src="{% static 'img/Accion.png' %}" class="card-img-top" alt="Imagen de Juego 1">
-                        <div class="card-body">
-                            <h5 class="card-title">ACCION</h5>
+            {% for categoria in categorias %}
+                <div class="col-4 col-sm-6 col-md-4 col-lg-3">
+                    <a href="{% url 'juegos_por_categoria' categoria.id %}" class="text-decoration-none">
+                        <div class="card custom-card">
+                            <img src="{% static 'img/'|add:categoria.nombre|add:'.png' %}" class="card-img-top" alt="Imagen de {{ categoria.nombre }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ categoria.nombre }}</h5>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-4 col-sm-6 col-md-4 col-lg-3">
-                <a href="carreras/" class="text-decoration-none">
-                    <div class="card custom-card">
-                        <img src="{% static 'img/Carreras.png' %}" class="card-img-top" alt="Imagen de Juego 2">
-                        <div class="card-body">
-                            <h5 class="card-title">CARRERAS</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-4 col-sm-6 col-md-4 col-lg-3">
-                <a href="freetoplay/" class="text-decoration-none">
-                    <div class="card custom-card">
-                        <img src="{% static 'img/FreeToPlay.png' %}" class="card-img-top" alt="Imagen de Juego 3">
-                        <div class="card-body">
-                            <h5 class="card-title">FREE TO PLAY</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-4 col-sm-6 col-md-4 col-lg-3">
-                <a href="mundoabierto/" class="text-decoration-none">
-                    <div class="card custom-card">
-                        <img src="{% static 'img/MundoAbiertoFot.png' %}" class="card-img-top" alt="Imagen de Juego 4">
-                        <div class="card-body">
-                            <h5 class="card-title">MUNDO ABIERTO</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-4 col-sm-6 col-md-4 col-lg-3">
-                <a href="supervivencia/" class="text-decoration-none">
-                    <div class="card custom-card">
-                        <img src="{% static 'img/SupervivenciaFoto.png' %}" class="card-img-top" alt="Imagen de Juego 5">
-                        <div class="card-body">
-                            <h5 class="card-title">SUPERVIVENCIA</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-4 col-sm-6 col-md-4 col-lg-3">
-                <a href="terror/" class="text-decoration-none">
-                    <div class="card custom-card">
-                        <img src="{% static 'img/TerrorFoto.png' %}" class="card-img-top" alt="Imagen de Juego 6">
-                        <div class="card-body">
-                            <h5 class="card-title">TERROR</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
+            {% endfor %}
         </div>
     </div>
+    
 
 
 </body>
