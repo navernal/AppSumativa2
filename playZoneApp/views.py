@@ -201,8 +201,8 @@ def logout_view(request):
 def juegos_por_categoria(request, categoria_id):
     categoria = Categoria.objects.get(id=categoria_id)
     juegos = Videojuego.objects.filter(categoria=categoria)
-    nombre_categoria = categoria.nombre.replace("_", " ")
-
+    nombre_categoria = categoria.nombre.replace("_", "")
+    
     return render(request, 'juegos_por_categoria.html', {
         'categoria': categoria,
         'juegos': juegos,

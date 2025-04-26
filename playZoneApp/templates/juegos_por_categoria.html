@@ -173,7 +173,7 @@
         {% for juego in juegos %}
         <div class="col-md-4 mb-4">
             <div class="card h-100 custom-card">
-                <img src="{% static 'img/'|add:juego.nombre|add:'.png' %}" class="card-img-top" alt="{{ juego.nombre }}">
+                <img src="{% static 'img/' %}{{ juego.nombre|slugify }}.png" class="card-img-top" alt="{{ juego.nombre }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ juego.nombre }}</h5>
                     <p class="card-text">{{ juego.descripcion }}</p>
