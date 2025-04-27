@@ -1,0 +1,23 @@
+# --- Ignorar entorno virtual ---
+env/
+venv/
+
+*.pyc
+__pycache__/
+
+*.sqlite3
+
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+.DS_Store
+Thumbs.db
+
+*.log
+
+.env
+
+staticfiles/
+media/
