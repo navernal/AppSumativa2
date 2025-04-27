@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'playZoneApp'
+    'playZoneApp',
+    'rest_api',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from playZoneApp import views
 
 urlpatterns = [
@@ -41,6 +41,7 @@ urlpatterns = [
     path('categoria/<int:categoria_id>/', views.juegos_por_categoria, name='juegos_por_categoria'),
     path('actualizar_carrito/', views.actualizar_carrito, name='actualizar_carrito'),
     path('registrar_pago/', views.registrar_pago, name='registrar_pago'),
+    path('api/', include('rest_api.urls')),
 
 
 ]
