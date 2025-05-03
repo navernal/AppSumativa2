@@ -17,7 +17,6 @@ Thumbs.db
 
 *.log
 
-.env
 
 staticfiles/
 media/

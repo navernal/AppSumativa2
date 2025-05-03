@@ -10,12 +10,13 @@ from django.contrib.auth import logout
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.utils import timezone
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
+import requests
+from django.conf import settings
 
 
 # Create your views here.
@@ -36,17 +37,26 @@ def login_view(request):
 
 @login_requerido
 def index(request):
-    categorias = Categoria.objects.all()
-    for cat in categorias:
-        cat.nombre = cat.nombre.replace("_", "")
+    api_url = f'{settings.API_BASE_URL}categorias/'
+    response = requests.get(api_url)
+
+    if response.status_code == 200:
+        categorias = response.json()
+        for cat in categorias:
+            cat["nombre"] = cat["nombre"].replace("_", "")
+    else:
+        categorias = []
+
     user_id = request.session.get('user_id')
     if not user_id:
         return redirect('login')
+
     try:
         usuario = Usuario.objects.get(id=user_id)
     except Usuario.DoesNotExist:
         return redirect('login')
-    return render(request, 'index.html', {'usuario': usuario,'categorias': categorias})
+    
+    return render(request, 'index.html', {'usuario': usuario, 'categorias': categorias})
 
 @login_requerido
 def Accion(request):
@@ -199,12 +209,18 @@ def logout_view(request):
     return redirect('login')  
 
 def juegos_por_categoria(request, categoria_id):
-    categoria = Categoria.objects.get(id=categoria_id)
-    juegos = Videojuego.objects.filter(categoria=categoria)
-    nombre_categoria = categoria.nombre.replace("_", "")
-    
+    api_url = f'{settings.API_BASE_URL}videojuegos/categoria/{categoria_id}/'
+
+    response = requests.get(api_url)    
+    if response.status_code == 200:
+        data = response.json()
+        nombre_categoria = data.get("nombre_categoria", "Desconocida")  
+        juegos = data.get("videojuegos", [])  
+    else:
+        juegos = []
+        nombre_categoria = "Categoría no encontrada"
+
     return render(request, 'juegos_por_categoria.html', {
-        'categoria': categoria,
         'juegos': juegos,
         'nombre_categoria': nombre_categoria
     })

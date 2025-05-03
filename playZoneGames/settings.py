@@ -12,6 +12,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import oracledb
+import os
+import environ
+
+env = environ.Env()
+# Lee el archivo .env
+environ.Env.read_env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,8 +35,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_URL = 'login' 
 
+API_BASE_URL = 'http://127.0.0.1:8000/api/'
 
 # Application definition
 
@@ -81,9 +88,9 @@ WSGI_APPLICATION = 'playZoneGames.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'localhost:1522/FREEPDB1',  # o el nombre del servicio Oracle que uses
-        'USER': 'system',
-        'PASSWORD': 'Ora1234'
+        'NAME': env('DJANGO_DB_DSN'),   
+        'USER': env('DJANGO_DB_USER'),
+        'PASSWORD': env('DJANGO_DB_PASSWORD'),
     }
 }
 
@@ -129,7 +136,5 @@ STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-AUTHENTICATION_BACKENDS = [
-    'playZoneApp.backend.CustomAuthBackend'
-]
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
