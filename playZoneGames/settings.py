@@ -37,6 +37,8 @@ ALLOWED_HOSTS = []
 
 
 API_BASE_URL = 'http://127.0.0.1:8000/api/'
+API_RICK = 'https://rickandmortyapi.com/api/'
+API_POKE = 'https://pokeapi.co/api/v2/'
 
 # Application definition
 

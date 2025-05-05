@@ -42,6 +42,8 @@ urlpatterns = [
     path('actualizar_carrito/', views.actualizar_carrito, name='actualizar_carrito'),
     path('registrar_pago/', views.registrar_pago, name='registrar_pago'),
     path('api/', include('rest_api.urls')),
+    path('pokemon/', views.lista_pokemon, name='lista_pokemon'),
+    path('rickmorty/', views.lista_rickmorty, name='lista_rickmorty'),
 
 
 ]

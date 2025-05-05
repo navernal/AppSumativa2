@@ -121,6 +121,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="foro/">Foro</a>
                     </li>
+                    <a class="nav-link" href="{% url 'lista_pokemon' %}">Pokémon API</a>
+                    <a class="nav-link" href="{% url 'lista_rickmorty'%}">Rick & Morty API</a>
                     <form method="POST" action="{% url 'logout' %}" class="d-inline">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Cerrar sesión</button>

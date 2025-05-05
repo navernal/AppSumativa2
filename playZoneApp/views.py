@@ -233,6 +233,36 @@ def actualizar_carrito(request):
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error'}, status=400)
 
+@login_requerido
+def lista_pokemon(request):
+    response = requests.get(settings.API_POKE+'pokemon?limit=20')
+    pokemons = []
+
+    if response.status_code == 200:
+        data = response.json()
+        for item in data['results']:
+            detail = requests.get(item['url']).json()
+            pokemon = {
+                'name': item['name'],
+                'image': detail['sprites']['front_default'],
+                'height': detail['height'],
+                'weight': detail['weight'],
+                'types': [t['type']['name'] for t in detail['types']]
+            }
+            pokemons.append(pokemon)
+
+    return render(request, 'pokemon_template.html', {'pokemons': pokemons})
+
+@login_requerido
+def lista_rickmorty(request):
+    response = requests.get(settings.API_RICK + 'character')
+    if response.status_code == 200:
+        data = response.json()
+        characters = data['results']
+    else:
+        characters = []
+    return render(request, 'rick_template.html', {'characters': characters})
+
 @csrf_exempt
 def registrar_pago(request):
     if request.method == 'POST':
