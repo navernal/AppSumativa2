@@ -1,0 +1,6 @@
+<h1>Compras Realizadas</h1>
+<ul>
+  {% for compra in compras %}
+    <li>{{ compra.usuario }} - Total: ${{ compra.total }} - Fecha: {{ compra.fecha_compra }}</li>
+  {% endfor %}
+</ul>

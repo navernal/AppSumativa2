@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Iniciar Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            background-image: url('../img/fondo.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .login-container {
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            margin: 100px auto;
+        }
+        
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .btn-primary {
+            width: 100%;
+            background-color: red;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: darkred;
+        }
+        
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Menú de Navegación -->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="img/VIRTUAL3.png" width="35px">
+                <strong>Admin Panel</strong>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Formulario de Inicio de Sesión -->
+    <div class="login-container">
+        <h2 class="text-center">Admin - Iniciar Sesión</h2>
+        <form onsubmit="return validarAdmin(event)">
+            <div class="mb-3">
+                <input type="text" id="admin-user" class="form-control" placeholder="Usuario" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" id="admin-pass" class="form-control" placeholder="Contraseña" required>
+            </div>
+            <p id="error" class="error-message text-center"></p>
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+    </div>
+
+    <script>
+        function validarAdmin(event) {
+            event.preventDefault();
+
+            let usuario = document.getElementById("admin-user").value;
+            let contrasena = document.getElementById("admin-pass").value;
+            let errorMensaje = document.getElementById("error");
+
+            const usuarioCorrecto = "admin";
+            const contrasenaCorrecta = "admin123";
+
+            if (usuario === usuarioCorrecto && contrasena === contrasenaCorrecta) {
+                localStorage.setItem("admin", usuario);
+                window.location.href = "admin-dashboard.html";
+            } else {
+                errorMensaje.innerText = "Usuario o contraseña incorrecta";
+            }
+        }
+    </script>
+
+</body>
+<footer class="bg-dark text-white text-center py-4">
+    <p>&copy; 2025 Virtual Play Zone - Todos los derechos reservados.</p>
+    <div class="d-flex justify-content-center gap-3">
+        <a href="#" class="text-white"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+    </div>
+</footer>
+
+</html>

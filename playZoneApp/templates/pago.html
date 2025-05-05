@@ -1,0 +1,52 @@
+<script>
+    function getParametro(nombre) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(nombre);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const monto = getParametro("monto");
+        const carritoString = decodeURIComponent(getParametro("carrito"));
+        const carrito = JSON.parse(carritoString);
+
+        document.getElementById("montoFinal").innerText = monto;
+
+        const lista = document.getElementById("listaPago");
+        carrito.forEach(item => {
+            let li = document.createElement("li");
+            li.className = "list-group-item bg-dark text-white";
+            li.innerText = `${item.nombre} - $${item.precio}`;
+            lista.appendChild(li);
+        });
+
+        window.carritoData = carrito;
+        window.totalData = monto;
+    });
+
+    function confirmarPago() {
+        fetch("/registrar_pago/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                total: parseInt(window.totalData),
+                carrito: window.carritoData
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "ok") {
+                alert("¡Pago registrado con éxito! Gracias por tu compra.");
+                localStorage.removeItem("carrito");
+                window.location.href = "{% url 'index' %}";
+            } else {
+                alert("Error al registrar el pago.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("Error de red.");
+        });
+    }
+</script>

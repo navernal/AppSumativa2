@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
@@ -9,58 +8,46 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <title>Virtual Play Zone</title>
+    <title>Accion</title>
     <style>
-        nav {
-            background: rgba(179, 144, 173, 0.5);
-            color: white;
-            padding: 40px;
+        body {
+            margin-top: 1cm;
         }
         
-        h1 {
-            background: rgba(179, 144, 173, 0.5);
-            font-size: 40px;
-            color: white;
-            margin-bottom: 30px;
-            text-align: center;
-            border: none;
+        header {
+            width: 100%;
+            height: 5cm;
+            position: relative;
+            overflow: hidden;
         }
         
-        h2 {
-            font-size: 40px;
-            margin-bottom: 30px;
-            text-align: center;
-            color: white;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
-        
-        html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-        
-        .fondo {
-            position: fixed;
+        header img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: -1;
         }
         
-        body {
-            min-height: 100vh;
-            overflow-y: scroll;
-        }
-        
-        .contenido {
-            position: relative;
+        .texto-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             color: white;
             text-align: center;
-            margin-top: 20%;
-            font-size: 24px;
-            min-height: 100vh;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            font-size: 1.0em;
+            margin: 0;
+            padding-top: 5px;
+            background-color: rgba(179, 144, 173, 0.5);
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
         
         .custom-card {
@@ -72,12 +59,19 @@
         
         .custom-card .card-body {
             background-color: rgba(179, 144, 173, 0.5);
-            color: #fff;
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: justify;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         
         .custom-card .card-title {
-            color: white;
+            color: black;
             text-align: center;
+            margin-bottom: 10px;
+            /
         }
         
         .custom-card .card-img-top {
@@ -88,47 +82,47 @@
             margin-left: auto;
             margin-right: auto;
         }
+        
+        .black-background {
+            background-color: rgba(179, 144, 173, 0.5);
+            color: white;
+            padding: 20px 0;
+        }
     </style>
+
 </head>
 
 <body>
+    <header>
+        <img src="{% static 'img/fondo.jpg' %}" alt="Imagen en la parte superior">
+        <div class="texto-overlay">
+            <h1><strong>M U N D O   A B I E R T O</strong></h1>
+            <p><strong>Juegos en los que los jugadores pueden explorar libremente un mundo virtual extenso, realizando misiones o actividades de manera no lineal</strong></p>
+        </div>
+    </header>
 
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top" style="border-bottom: none; box-shadow: none;">
         <div class="container-fluid d-flex justify-content-between">
-            <a class="navbar-brand" href="">
+            <a class="navbar-brand" href="{% url 'index' %}">
                 <img src="{% static 'img/VIRTUAL3.png' %}" width="35px" class="png">
                 <strong>Virtual Play Zone</strong>
             </a>
-
-            <span class="navbar-text text-white me-3">
-                Bienvenido, {{ usuario.nombres }}
-            </span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {% if usuario.rol.nombre == "admin" %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'usuarios_admin' %}">Gestión de Usuarios</a>
+                        <a class="nav-link" href="#">Categorias</a>
                     </li>
-                {% endif %}
-                {% if usuario.rol.nombre == "public" %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'editar_usuario' usuario.id %}">Editar Perfil</a>
-                </li>
-            {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="foro/">Foro</a>
+                        <a class="nav-link" href="{% url 'foro' %}">Foro</a>
                     </li>
-                    <a class="nav-link" href="{% url 'lista_pokemon' %}">Pokémon API</a>
-                    <a class="nav-link" href="{% url 'lista_rickmorty'%}">Rick & Morty API</a>
-                    <form method="POST" action="{% url 'logout' %}" class="d-inline">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Cerrar sesión</button>
-                    </form>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Acerca de Virtual Play Zone</a>
+                    </li>
                 </ul>
-                <a href="carrito/" class="btn btn-primary me-2">Ir al Carrito</a>
+                <a href="{% url 'carrito' %}" class="btn btn-primary me-2">Ir al Carrito</a>
                 <script>
                     function agregarAlCarrito(nombre, precio) {
                         let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -139,11 +133,9 @@
                         localStorage.setItem("carrito", JSON.stringify(carrito));
 
                         alert(nombre + " agregado al carrito.");
-                        window.location.href = "{% url 'index' %}"; // Redirige a carrito.html
+                        window.location.href = "../carrito.html"; // Redirige a carrito.html
                     }
                 </script>
-                <div>
-                </div>
                 <form class="d-flex" role="Buscar">
                     <input class="form-control me-2" type="Buscar" placeholder="Buscar" aria-label="Buscar">
                     <button class="btn rounded-pill px-4" style="background-color: #6a0dad; color: white; border: none;" type="submit">Buscar</button>
@@ -151,30 +143,32 @@
             </div>
         </div>
     </nav>
-    <img class="fondo" src="{% static 'img/fondo.jpg' %}" alt="Fondo" style="z-index: -1; position: fixed; width: 100%; height: 100%; object-fit: cover;">
 
-    <h1>VIRTUAL PLAY ZONE</h1>
-
-
-    <h2><strong>C A T E G O R I A S</strong></h2>
-    <div class="container">
-        <div class="row justify-content-center">
-            {% for categoria in categorias %}
-                <div class="col-4 col-sm-6 col-md-4 col-lg-3">
-                    <a href="{% url 'juegos_por_categoria' categoria.id %}" class="text-decoration-none">
-                        <div class="card custom-card">
-                            <img src="{% static 'img/'|add:categoria.nombre|add:'.png' %}" class="card-img-top" alt="Imagen de {{ categoria.nombre }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ categoria.nombre }}</h5>
-                            </div>
-                        </div>
-                    </a>
+    <div class="container-fluid black-background">
+        <div class="row">
+            <div class="col-4">
+                <div class="card custom-card">
+                    <img src="{% static 'img/noman.png' %}" class="card-img-top" alt="Imagen de Juego 1">
+                    <div class="card-body">
+                        <h5 class="card-title">No Man's Sky</h5>
+                        <p>Explora un universo infinito con planetas generados proceduralmente, comercio, combates espaciales y construcción</p>
+                        <a href="#" class="btn btn-dark text-white">$60.000 CLP</a>
+                    </div>
                 </div>
-            {% endfor %}
+            </div>
+
+            <div class="col-4">
+                <div class="card custom-card">
+                    <img src="{% static 'img/zelda.png' %}" class="card-img-top" alt="Imagen de Juego 2">
+                    <div class="card-body">
+                        <h5 class="card-title">The Legend of Zelda: Breath of the Wild</h5>
+                        <p> Los jugadores asumen el rol de Link, quien despierta de un sueño de 100 años para enfrentarse a Ganon y salvar el reino de Hyrule</p>
+                        <a href="#" class="btn btn-dark text-white">50.000 CLP</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
-
 
 </body>
 <footer class="bg-dark text-white text-center py-4">
