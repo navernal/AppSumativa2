@@ -12,6 +12,11 @@ Este proyecto usa **Docker Compose** para levantar una base de datos Oracle y **
     docker-compose up -d
     ```
 
+jasjjas 
+
+sjdsjjd
+sndjs
+
     Tanto el puerto a ocupar como la password se encuentran en el archivo .env
 
 2. **Realizar migraciones en Django**:
